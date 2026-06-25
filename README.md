@@ -478,7 +478,7 @@ A complete demo video showcasing all features is available:
 - Dashboard overview
 - Profile management
 
-**Watch the demo:** [Link to demo video - Consider uploading to YouTube]
+**Watch the demo:** https://github.com/user-attachments/assets/d1d56a7b-77da-466d-9a9f-eb678d15ebba
 
 ---
 
