@@ -1,121 +1,102 @@
-# 🏋️ Gym Equipment & Services - Frontend Web App
-
-A modern, responsive frontend web application for browsing gym equipment and booking services. This project is developed as part of a full-stack web application assignment (Frontend - Task 2).
-
----
-
-## 🚀 Features
-
-- 🔐 User Login & Registration UI
-- 🏠 Interactive Homepage with smooth navigation
-- 📊 Dashboard with sidebar navigation
-- 🏋️ Browse Gym Machines (Catalog View)
-- 🔍 Search & Filter Functionality
-- 📄 Machine Detail View
-- 📅 Booking / Service UI
-- 🛠 Repair & Maintenance Request Form
-- 👤 User Profile Page
-- 📱 Fully Responsive Design
+# GymForge – Back-End Setup Guide
+## CIS2213 Final Project | Semester 202520
 
 ---
 
-## 🛠 Technologies Used
-
-- HTML5  
-- CSS3  
-- Bootstrap 5  
-- JavaScript (ES6)  
-- jQuery  
-
----
-
-## 🎨 UI/UX Highlights
-
-- Clean and modern design  
-- Consistent layout across all pages  
-- Responsive on mobile, tablet, and desktop  
-- Interactive elements using JavaScript  
-- Icon-based UI (Font Awesome / Bootstrap Icons)  
-
----
-
-## 📂 Project Structure
-
-```text
-
-gym-project/
-│
-├── css/
-│ └── style.css
-│
-├── js/
-│ ├── main.js
-│ ├── data.js
-│ └── sidebar.js
-│
-├── pages/
-│ ├── login.html
-│ ├── register.html
-│ ├── dashboard.html
-│ ├── machines.html
-│ ├── machine-detail.html
-│ ├── services.html
-│ ├── search.html
-│ ├── profile.html
-│ └── repair.html
-│
-├── images/
-├── index.html
-└── GymForge_Frontend_Report.docx
+## Project Structure
 
 ```
----
-
-## ▶️ How to Run
-
-1. Download or clone the repository:
-
-git clone https://github.com/Uzairkahn/Gym-frontend-project.git
-
-
-2. Open the project folder in VS Code
-
-3. Run using Live Server OR open:
-
-index.html
-
-
----
-
-## 📸 Screenshots
-
-<img width="1792" height="4083" alt="image" src="https://github.com/user-attachments/assets/e2c299ec-ff4c-4581-a4dc-76e6d502a05d" />
+gym-project/              ← Front-End (Task 2 – your HTML/CSS/JS files)
+gymforge-backend/         ← Back-End (Task 3, 4, 5 – this folder)
+│
+├── database/
+│   ├── schema.sql        ← Run this in MySQL first
+│   └── db.js             ← MySQL connection pool
+│
+├── routes/
+│   ├── auth.js           ← /api/register, /api/login, /api/logout, /api/me
+│   ├── machines.js       ← /api/machines
+│   ├── services.js       ← /api/services
+│   ├── bookings.js       ← /api/bookings
+│   └── repairs.js        ← /api/repairs
+│
+├── .env                  ← Database credentials (edit this!)
+├── server.js             ← Express server entry point
+└── package.json
+```
 
 ---
 
-## 🧠 Key Concepts Implemented
+## Step 1 – Set Up the Database (MySQL)
 
-- Multi-page frontend architecture  
-- Client-side form validation  
-- Dynamic UI updates using JavaScript  
-- Session simulation using browser storage  
-- Modular JavaScript structure  
+Open **MySQL Workbench** or your terminal MySQL client and run:
 
----
+```sql
+SOURCE /full/path/to/gymforge-backend/database/schema.sql
+```
 
-## ⚠️ Note
-
-This project is **frontend-only** and does not include backend or database integration.
-
----
-
-## 👨‍💻 Author
-
-**Uzair Khan**  
-- GitHub: https://github.com/Uzairkahn  
+This will:
+- Create the `gymforge_db` database
+- Create all tables (users, machines, services, bookings, repair_requests)
+- Insert sample machine and service data
 
 ---
 
-## ⭐ Support
+## Step 2 – Configure Your Database Password
 
-If you like this project, consider giving it a ⭐ on GitHub!
+Open the `.env` file and update:
+
+```
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=YOUR_MYSQL_PASSWORD_HERE
+DB_NAME=gymforge_db
+SESSION_SECRET=gymforge_secret_key_2025
+PORT=3000
+```
+
+---
+
+## Step 3 – Install Dependencies
+
+```bash
+cd gymforge-backend
+npm install
+```
+
+---
+
+## Step 4 – Run the Server
+
+```bash
+npm start
+```
+
+You should see:
+```
+✅  GymForge server running at http://localhost:3000
+📂  Serving static files from: gym-project/
+🔗  API base: http://localhost:3000/api
+```
+
+Open your browser at: **http://localhost:3000**
+
+---
+
+## API Endpoints
+
+| Method | Endpoint              | Auth Required | Description              |
+|--------|-----------------------|---------------|--------------------------|
+| POST   | /api/register         | No            | Create new account       |
+| POST   | /api/login            | No            | Login (creates session)  |
+| POST   | /api/logout           | No            | Logout (destroys session)|
+| GET    | /api/me               | Yes           | Get logged-in user info  |
+| GET    | /api/machines         | No            | Get all machines         |
+| GET    | /api/machines/:id     | No            | Get machine by ID        |
+| GET    | /api/services         | No            | Get all services         |
+| GET    | /api/services/:id     | No            | Get service by ID        |
+| GET    | /api/bookings         | Yes           | Get user's bookings      |
+| POST   | /api/bookings         | Yes           | Create a new booking     |
+| DELETE | /api/bookings/:id     | Yes           | Cancel a booking         |
+| GET    | /api/repairs          | Yes           | Get user's repair reqs   |
+| POST   | /api/repairs          | Yes           | Submit a repair request  |
